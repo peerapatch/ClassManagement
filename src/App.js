@@ -1,6 +1,6 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import './App.css';
-import {Button, Form, Container, Header} from 'semantic-ui-react'
+import {Button, Form, Container, Header, Table} from 'semantic-ui-react'
 import axios from 'axios'
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
     const [classroom, setClassroom] = useState('');
     const [day, setDay] = useState('');
     const [time, setTime] = useState('');
-    // const [data, setData] =  useState([]);
+    const [data, setData] =  useState(null);
 
     const userData = {
       code,
@@ -31,7 +31,6 @@ function App() {
   /* useEffect(() => {
       getSheet()
     },[]);
-
     useEffect(() => {
       getSheet()
     },[data]); */
@@ -43,6 +42,8 @@ function App() {
       axios.post('https://sheet.best/api/sheets/3ed01875-5031-40d2-9cf1-d41fe00161aa', userData)
             .then(res => {
               console.log(res);
+              alert('successfully');
+              window.location.reload();
             })
             setCode('');
             setSubject('');
@@ -54,6 +55,18 @@ function App() {
             setDay('');
             setTime('');     
     }
+
+    useEffect(() => {
+      axios.get('https://sheet.best/api/sheets/3ed01875-5031-40d2-9cf1-d41fe00161aa')
+        .then(res => setData(res))
+        console.log(data);
+    }, []);
+
+    if (!data) {
+      return <div />;
+    }
+
+    console.log(data);
 
     
     // const getSheet = () => {
@@ -115,6 +128,38 @@ function App() {
 
           <Button color="blue" type="submit"> Submit </Button>
         </Form>
+
+        <hr />
+        <Table celled>
+          <Table.Header>
+            <Table.HeaderCell>Subject Code</Table.HeaderCell>
+            <Table.HeaderCell>Subject</Table.HeaderCell>
+            <Table.HeaderCell>Section</Table.HeaderCell>
+            <Table.HeaderCell>Capacity</Table.HeaderCell>
+            <Table.HeaderCell>Student Group</Table.HeaderCell>
+            <Table.HeaderCell>Lecturer</Table.HeaderCell>
+            <Table.HeaderCell>Classroom</Table.HeaderCell>
+            <Table.HeaderCell>Days</Table.HeaderCell>
+            <Table.HeaderCell>Times</Table.HeaderCell>
+          </Table.Header>
+
+          <Table.Body>
+            {data.data.map((val, idx) => (
+              <Table.Row key={idx}>
+                  <Table.Cell>{val.code}</Table.Cell>
+                  <Table.Cell>{val.subject}</Table.Cell>
+                  <Table.Cell>{val.section}</Table.Cell>
+                  <Table.Cell>{val.capacity}</Table.Cell>
+                  <Table.Cell>{val.student}</Table.Cell>
+                  <Table.Cell>{val.lecturer}</Table.Cell>
+                  <Table.Cell>{val.classroom}</Table.Cell>
+                  <Table.Cell>{val.day}</Table.Cell>
+                  <Table.Cell>{val.time}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+
     </Container>
   );
 }
