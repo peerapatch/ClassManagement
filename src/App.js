@@ -17,15 +17,15 @@ function App() {
   const [time, setTime] = useState('');
   const [data, setData] = useState([]);
   const headers = [
-    { label: "code", key: "code" },
-    { label: "subject", key: "subject" },
-    { label: "section", key: "section" },
-    { label: "capacity", key: "capacity" },
-    { label: "student", key: "student" },
-    { label: "lecturer", key: "lecturer" },
-    { label: "classroom", key: "classroom" },
-    { label: "day", key: "day" },
-    { label: "time", key: "time" }
+    { label: "Subject Code", key: "code" },
+    { label: "Subject", key: "subject" },
+    { label: "Section", key: "section" },
+    { label: "Capacity", key: "capacity" },
+    { label: "Student Group", key: "student" },
+    { label: "Lecturer", key: "lecturer" },
+    { label: "Classroom", key: "classroom" },
+    { label: "Days", key: "day" },
+    { label: "Times", key: "time" }
   ];
 
   const userData = {
